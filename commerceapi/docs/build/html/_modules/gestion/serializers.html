@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>gestion.serializers &#8212; Documentation eBrocanteApi 1.0</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Code source de gestion.serializers</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">serializers</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">ShopProduct</span><span class="p">,</span> <span class="n">ProfileOrder</span><span class="p">,</span> <span class="n">ProfileOrderproduct</span><span class="p">,</span> <span class="n">ShopImages</span><span class="p">,</span> <span class="n">ProfileCustomer</span><span class="p">,</span> <span class="n">ContactContact</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">ProfileAddress</span><span class="p">,</span> <span class="n">ShopSubcategory</span>
+
+
+<div class="viewcode-block" id="OrderSerializer"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.OrderSerializer">[docs]</a><span class="k">class</span> <span class="nc">OrderSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :synopsis: Classe qui permet de serializer et déserialisez des donnes provenant du model ProfileOrder</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="OrderSerializer.Meta"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.OrderSerializer.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">ProfileOrder</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;customer&#39;</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;delivery&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;methodpayment&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="OrderSerializer.create"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.OrderSerializer.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validated_data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :synopsis: Creer une nouvelle entrer dans la base de donnees et retourne le resultat</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ProfileOrder</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">**</span><span class="n">validated_data</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="OrderDetailsSerializer"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.OrderDetailsSerializer">[docs]</a><span class="k">class</span> <span class="nc">OrderDetailsSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :synopsis: Classe qui permet de serializer et déserialisez des donnes provenant du model OrderDetailsSerializer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">product_name</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">ReadOnlyField</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s1">&#39;product.name&#39;</span><span class="p">)</span>
+    <span class="n">product_price</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">ReadOnlyField</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s1">&#39;product.price&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="OrderDetailsSerializer.Meta"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.OrderDetailsSerializer.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">ProfileOrderproduct</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;order&#39;</span><span class="p">,</span> <span class="s1">&#39;product&#39;</span><span class="p">,</span> <span class="s1">&#39;product_name&#39;</span><span class="p">,</span> <span class="s1">&#39;product_price&#39;</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="ProductSerializer"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.ProductSerializer">[docs]</a><span class="k">class</span> <span class="nc">ProductSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :synopsis: Classe qui permet de serializer et déserialisez des donnes provenant du model ProductSerializer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">category_name</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">ReadOnlyField</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s1">&#39;category.name&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ProductSerializer.Meta"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.ProductSerializer.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">ShopProduct</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;category_name&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="ProductSerializer.create"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.ProductSerializer.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validated_data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :synopsis: Creer une nouvelle entrer dans la base de donnees et retourne le resultat</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ShopProduct</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">**</span><span class="n">validated_data</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ProductImageSerializer"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.ProductImageSerializer">[docs]</a><span class="k">class</span> <span class="nc">ProductImageSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :synopsis: Classe qui permet de serializer et déserialisez des donnes provenant du model ProductImageSerializer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ProductImageSerializer.Meta"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.ProductImageSerializer.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">ShopImages</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;product&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="CustomerSerializer"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.CustomerSerializer">[docs]</a><span class="k">class</span> <span class="nc">CustomerSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui permet de serializer et déserialisez des donnes provenant du model CustomerSerializer&quot;&quot;&quot;</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">ReadOnlyField</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s1">&#39;user.first_name&#39;</span><span class="p">)</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">ReadOnlyField</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s1">&#39;user.username&#39;</span><span class="p">)</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">ReadOnlyField</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s1">&#39;user.email&#39;</span><span class="p">)</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">ReadOnlyField</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s1">&#39;user.last_name&#39;</span><span class="p">)</span>
+    <span class="n">date_joined</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">ReadOnlyField</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s1">&#39;user.date_joined&#39;</span><span class="p">)</span>
+    <span class="n">last_login</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">ReadOnlyField</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s1">&#39;user.last_login&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CustomerSerializer.Meta"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.CustomerSerializer.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">ProfileCustomer</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;mobile&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;isnewsletter&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;last_name&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;date_joined&#39;</span><span class="p">,</span> <span class="s1">&#39;last_login&#39;</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="ContactSerializer"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.ContactSerializer">[docs]</a><span class="k">class</span> <span class="nc">ContactSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui permet de serializer et déserialisez des donnes provenant du model ContactSerializer&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ContactSerializer.Meta"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.ContactSerializer.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">ContactContact</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nom&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;subject&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="AddressSerializer"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.AddressSerializer">[docs]</a><span class="k">class</span> <span class="nc">AddressSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui permet de serializer et déserialisez des donnes provenant du model AddressSerializer&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="AddressSerializer.Meta"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.AddressSerializer.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">ProfileAddress</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;firstname&#39;</span><span class="p">,</span> <span class="s1">&#39;lastname&#39;</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="s1">&#39;cp&#39;</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;mobile&#39;</span><span class="p">,</span> <span class="s1">&#39;customer&#39;</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="SubCategorySerializer"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.SubCategorySerializer">[docs]</a><span class="k">class</span> <span class="nc">SubCategorySerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui permet de serializer et déserialisez des donnes provenant du model SubCategorySerializer&quot;&quot;&quot;</span>
+    <span class="n">category_name</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">ReadOnlyField</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s1">&#39;category.name&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SubCategorySerializer.Meta"><a class="viewcode-back" href="../../rest/gestion.html#gestion.serializers.SubCategorySerializer.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">ShopSubcategory</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;category_name&#39;</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">]</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">eBrocanteApi</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Code du module</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Recherche rapide</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Theo Gaillard.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

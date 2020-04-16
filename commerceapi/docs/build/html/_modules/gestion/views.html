@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>gestion.views &#8212; Documentation eBrocanteApi 1.0</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Code source de gestion.views</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">permissions</span>
+<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">generics</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">ShopProduct</span><span class="p">,</span> <span class="n">ProfileOrder</span><span class="p">,</span> <span class="n">ProfileOrderproduct</span><span class="p">,</span> <span class="n">ShopImages</span><span class="p">,</span> <span class="n">ProfileCustomer</span><span class="p">,</span> <span class="n">ContactContact</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">ProfileAddress</span><span class="p">,</span> <span class="n">ShopSubcategory</span>
+<span class="kn">from</span> <span class="nn">.serializers</span> <span class="kn">import</span> <span class="n">OrderSerializer</span><span class="p">,</span> <span class="n">ProductSerializer</span><span class="p">,</span> <span class="n">OrderDetailsSerializer</span><span class="p">,</span> <span class="n">ProductImageSerializer</span>
+<span class="kn">from</span> <span class="nn">.serializers</span> <span class="kn">import</span> <span class="n">CustomerSerializer</span><span class="p">,</span> <span class="n">ContactSerializer</span><span class="p">,</span> <span class="n">AddressSerializer</span><span class="p">,</span> <span class="n">SubCategorySerializer</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">get_list_or_404</span>
+<span class="kn">from</span> <span class="nn">rest_framework.permissions</span> <span class="kn">import</span> <span class="n">IsAuthenticatedOrReadOnly</span>
+<span class="kn">from</span> <span class="nn">rest_framework.response</span> <span class="kn">import</span> <span class="n">Response</span>
+<span class="kn">from</span> <span class="nn">rest_framework.views</span> <span class="kn">import</span> <span class="n">APIView</span>
+
+
+<div class="viewcode-block" id="DocsView"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.DocsView">[docs]</a><span class="k">class</span> <span class="nc">DocsView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :synopsis: RESTFul Documentation de l&#39;api (lien utilisable)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">(</span><span class="n">IsAuthenticatedOrReadOnly</span><span class="p">,)</span>
+
+<div class="viewcode-block" id="DocsView.get"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.DocsView.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">apidocs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;product/&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="s1">&#39;product/&#39;</span><span class="p">),</span>
+                   <span class="s1">&#39;update/product/&lt;int:pk&gt;&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="s1">&#39;update/product/&lt;int:pk&gt;&#39;</span><span class="p">),</span>
+                   <span class="s1">&#39;order/&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="s1">&#39;order/&#39;</span><span class="p">),</span>
+                   <span class="s1">&#39;update/order/&lt;int:pk&gt;&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="s1">&#39;update/order/&lt;int:pk&gt;&#39;</span><span class="p">),</span>
+                   <span class="s1">&#39;order/details/&lt;int:order__customer__id&gt;/&lt;int:order__id&gt;&#39;</span><span class="p">:</span>
+                       <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="s1">&#39;order/details/&lt;int:order__customer__id&gt;/&lt;int:order__id&gt;&#39;</span><span class="p">),</span>
+                   <span class="s1">&#39;add/img/&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="s1">&#39;add/img/&#39;</span><span class="p">),</span>
+                   <span class="s1">&#39;customer/&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="s1">&#39;customer/&#39;</span><span class="p">),</span>
+                   <span class="s1">&#39;contact/&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="s1">&#39;contact/&#39;</span><span class="p">),</span>
+                   <span class="s1">&#39;contact/&lt;int:pk&gt;&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="s1">&#39;contact/&lt;int:pk&gt;&#39;</span><span class="p">),</span>
+                   <span class="s1">&#39;address/&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="s1">&#39;address/&#39;</span><span class="p">),</span>
+                   <span class="s1">&#39;address/&lt;int:customer&gt;&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="s1">&#39;address/&lt;int:customer&gt;&#39;</span><span class="p">),</span>
+                   <span class="s1">&#39;address/order/&lt;int:customer&gt;/&lt;int:pk&gt;&#39;</span><span class="p">:</span>
+                       <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="s1">&#39;address/order/&lt;int:customer&gt;/&lt;int:pk&gt;&#39;</span><span class="p">),</span>
+                   <span class="s1">&#39;subcategory/&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">build_absolute_uri</span><span class="p">(</span><span class="s1">&#39;subcategory/&#39;</span><span class="p">),</span>
+                   <span class="p">}</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">apidocs</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ProductList"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.ProductList">[docs]</a><span class="k">class</span> <span class="nc">ProductList</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListCreateAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui retourne la liste de tous les produits</span>
+<span class="sd">        Methode disponible : GET ou POST</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">ShopProduct</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">ProductSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">,</span> <span class="n">permissions</span><span class="o">.</span><span class="n">IsAdminUser</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="ProductDetail"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.ProductDetail">[docs]</a><span class="k">class</span> <span class="nc">ProductDetail</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">RetrieveUpdateDestroyAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui retourne les information relatif a un produit ou de le supprimer</span>
+<span class="sd">                  ou encore de modifier ses information (en fonction de sa pk)</span>
+<span class="sd">       Methode disponible : GET, PUT, DELETE</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">ShopProduct</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">ProductSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="ProductImageList"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.ProductImageList">[docs]</a><span class="k">class</span> <span class="nc">ProductImageList</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListCreateAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui retourne la liste de toutes les images</span>
+<span class="sd">       Methode disponible : GET ou POST</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">ShopImages</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">ProductImageSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="OrderList"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.OrderList">[docs]</a><span class="k">class</span> <span class="nc">OrderList</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui retourne la liste de toutes les commandes</span>
+<span class="sd">       Methode disponible : GET</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">OrderSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+
+<div class="viewcode-block" id="OrderList.get_queryset"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.OrderList.get_queryset">[docs]</a>    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="n">ProfileOrder</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="n">customer_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;customer_id&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">customer_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">get_list_or_404</span><span class="p">(</span><span class="n">ProfileOrder</span><span class="p">,</span> <span class="n">customer__id</span><span class="o">=</span><span class="n">customer_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">queryset</span></div></div>
+
+
+<div class="viewcode-block" id="OrderUpdate"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.OrderUpdate">[docs]</a><span class="k">class</span> <span class="nc">OrderUpdate</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">RetrieveUpdateAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui retourne les information relatif a une commande ou de la supprimer</span>
+<span class="sd">                  ou encore de modifier ses information (en fonction de sa pk)</span>
+<span class="sd">       Methode disponible : GET, DELETE ou PUT</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">ProfileOrder</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">OrderSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="OrderDetail"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.OrderDetail">[docs]</a><span class="k">class</span> <span class="nc">OrderDetail</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui retourne les articles présent dans une commande grace a l&#39;id du client et</span>
+<span class="sd">                  l&#39;id de la commande</span>
+<span class="sd">           Methode disponible : GET</span>
+<span class="sd">           &quot;&quot;&quot;</span>
+    <span class="n">lookup_field</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;order__customer__id&#39;</span><span class="p">,</span> <span class="s1">&#39;order__id&#39;</span><span class="p">)</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">OrderDetailsSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+
+<div class="viewcode-block" id="OrderDetail.get_queryset"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.OrderDetail.get_queryset">[docs]</a>    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;order__id&#39;</span><span class="p">]</span>
+        <span class="n">customer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;order__customer__id&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">get_list_or_404</span><span class="p">(</span><span class="n">ProfileOrderproduct</span><span class="p">,</span> <span class="n">order__customer__id</span><span class="o">=</span><span class="n">customer</span><span class="p">,</span> <span class="n">order__id</span><span class="o">=</span><span class="n">order</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="CustomerList"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.CustomerList">[docs]</a><span class="k">class</span> <span class="nc">CustomerList</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui retourne la liste de tous utilisateur qui sont des clients</span>
+<span class="sd">       Methode disponible : GET</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">ProfileCustomer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">CustomerSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="ContactList"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.ContactList">[docs]</a><span class="k">class</span> <span class="nc">ContactList</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui retourne la liste de toutes les demande de contact recu</span>
+<span class="sd">       Methode disponible : GET</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">ContactContact</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">ContactSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="ContactDelete"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.ContactDelete">[docs]</a><span class="k">class</span> <span class="nc">ContactDelete</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">RetrieveDestroyAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui permet de supprimer une demande de contact grace a sa pk</span>
+<span class="sd">       Methode disponible : GET ou DELETE</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">ContactContact</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">ContactSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="AddressList"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.AddressList">[docs]</a><span class="k">class</span> <span class="nc">AddressList</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui retourne toutes les adresse enregistrer accepte le parametre ?customer=id_customer qui</span>
+<span class="sd">                  permet d&#39;afficher les adresse concernant un client précis</span>
+<span class="sd">       Methode disponible : GET</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">ProfileAddress</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">AddressSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+
+<div class="viewcode-block" id="AddressList.get_queryset"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.AddressList.get_queryset">[docs]</a>    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="n">ProfileAddress</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="n">customer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;customer&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">customer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">get_list_or_404</span><span class="p">(</span><span class="n">ProfileAddress</span><span class="p">,</span> <span class="n">customer__id</span><span class="o">=</span><span class="n">customer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">queryset</span></div></div>
+
+
+<div class="viewcode-block" id="AddressOrderDetails"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.AddressOrderDetails">[docs]</a><span class="k">class</span> <span class="nc">AddressOrderDetails</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui retourne l&#39;addresse correspondante a une commande (param : /idCustomer/idOrder)</span>
+<span class="sd">       Methode disponible : GET</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+    <span class="n">lookup_field</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;customer&#39;</span><span class="p">,</span> <span class="s1">&#39;pk&#39;</span><span class="p">)</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">AddressSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+
+<div class="viewcode-block" id="AddressOrderDetails.get_queryset"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.AddressOrderDetails.get_queryset">[docs]</a>    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">customer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;customer&#39;</span><span class="p">]</span>
+        <span class="n">pk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;pk&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">get_list_or_404</span><span class="p">(</span><span class="n">ProfileAddress</span><span class="p">,</span> <span class="n">customer</span><span class="o">=</span><span class="n">customer</span><span class="p">,</span> <span class="n">profileorder__pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="AddressCustomerDetails"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.AddressCustomerDetails">[docs]</a><span class="k">class</span> <span class="nc">AddressCustomerDetails</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;:synopsis: Classe qui retourne toutes les adresse enregistrer d&#39;un client grace a sa pk</span>
+<span class="sd">       Methode disponible : GET</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+    <span class="n">lookup_field</span> <span class="o">=</span> <span class="s1">&#39;customer&#39;</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">AddressSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+
+<div class="viewcode-block" id="AddressCustomerDetails.get_queryset"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.AddressCustomerDetails.get_queryset">[docs]</a>    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">customer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;customer&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">get_list_or_404</span><span class="p">(</span><span class="n">ProfileAddress</span><span class="p">,</span> <span class="n">customer</span><span class="o">=</span><span class="n">customer</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="SubCategoryList"><a class="viewcode-back" href="../../rest/gestion.html#gestion.views.SubCategoryList">[docs]</a><span class="k">class</span> <span class="nc">SubCategoryList</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListAPIView</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">       :synopsis: Classe qui retourne toutes les sous categorie</span>
+<span class="sd">       Methode disponible : GET</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">ShopSubcategory</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">SubCategorySerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">eBrocanteApi</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Code du module</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Recherche rapide</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Theo Gaillard.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

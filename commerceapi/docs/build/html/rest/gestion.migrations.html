@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>gestion.migrations package &#8212; Documentation eBrocanteApi 1.0</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/translations.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Recherche" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="gestion-migrations-package">
+<h1>gestion.migrations package<a class="headerlink" href="#gestion-migrations-package" title="Lien permanent vers ce titre">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Lien permanent vers ce titre">¶</a></h2>
+</div>
+<div class="section" id="module-gestion.migrations.0001_initial">
+<span id="gestion-migrations-0001-initial-module"></span><h2>gestion.migrations.0001_initial module<a class="headerlink" href="#module-gestion.migrations.0001_initial" title="Lien permanent vers ce titre">¶</a></h2>
+<dl class="class">
+<dt id="gestion.migrations.0001_initial.Migration">
+<em class="property">class </em><code class="sig-prename descclassname">gestion.migrations.0001_initial.</code><code class="sig-name descname">Migration</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">app_label</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gestion/migrations/0001_initial.html#Migration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gestion.migrations.0001_initial.Migration" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Bases : <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="gestion.migrations.0001_initial.Migration.dependencies">
+<code class="sig-name descname">dependencies</code><em class="property"> = []</em><a class="headerlink" href="#gestion.migrations.0001_initial.Migration.dependencies" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gestion.migrations.0001_initial.Migration.initial">
+<code class="sig-name descname">initial</code><em class="property"> = True</em><a class="headerlink" href="#gestion.migrations.0001_initial.Migration.initial" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gestion.migrations.0001_initial.Migration.operations">
+<code class="sig-name descname">operations</code><em class="property"> = [&lt;CreateModel  name='AuthGroup', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('name', &lt;django.db.models.fields.CharField&gt;)], options={'db_table': 'auth_group', 'managed': False}&gt;, &lt;CreateModel  name='AuthGroupPermissions', fields=[('id', &lt;django.db.models.fields.AutoField&gt;)], options={'db_table': 'auth_group_permissions', 'managed': False}&gt;, &lt;CreateModel  name='AuthPermission', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('codename', &lt;django.db.models.fields.CharField&gt;), ('name', &lt;django.db.models.fields.CharField&gt;)], options={'db_table': 'auth_permission', 'managed': False}&gt;, &lt;CreateModel  name='AuthUser', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('password', &lt;django.db.models.fields.CharField&gt;), ('last_login', &lt;django.db.models.fields.DateTimeField&gt;), ('is_superuser', &lt;django.db.models.fields.BooleanField&gt;), ('username', &lt;django.db.models.fields.CharField&gt;), ('first_name', &lt;django.db.models.fields.CharField&gt;), ('email', &lt;django.db.models.fields.CharField&gt;), ('is_staff', &lt;django.db.models.fields.BooleanField&gt;), ('is_active', &lt;django.db.models.fields.BooleanField&gt;), ('date_joined', &lt;django.db.models.fields.DateTimeField&gt;), ('last_name', &lt;django.db.models.fields.CharField&gt;)], options={'db_table': 'auth_user', 'managed': False}&gt;, &lt;CreateModel  name='AuthUserGroups', fields=[('id', &lt;django.db.models.fields.AutoField&gt;)], options={'db_table': 'auth_user_groups', 'managed': False}&gt;, &lt;CreateModel  name='AuthUserUserPermissions', fields=[('id', &lt;django.db.models.fields.AutoField&gt;)], options={'db_table': 'auth_user_user_permissions', 'managed': False}&gt;, &lt;CreateModel  name='ContactContact', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('nom', &lt;django.db.models.fields.CharField&gt;), ('email', &lt;django.db.models.fields.CharField&gt;), ('message', &lt;django.db.models.fields.TextField&gt;), ('date', &lt;django.db.models.fields.DateTimeField&gt;), ('subject', &lt;django.db.models.fields.CharField&gt;)], options={'db_table': 'contact_contact', 'managed': False}&gt;, &lt;CreateModel  name='DjangoAdminLog', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('action_time', &lt;django.db.models.fields.DateTimeField&gt;), ('object_id', &lt;django.db.models.fields.TextField&gt;), ('object_repr', &lt;django.db.models.fields.CharField&gt;), ('change_message', &lt;django.db.models.fields.TextField&gt;), ('action_flag', &lt;django.db.models.fields.PositiveSmallIntegerField&gt;)], options={'db_table': 'django_admin_log', 'managed': False}&gt;, &lt;CreateModel  name='DjangoContentType', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('app_label', &lt;django.db.models.fields.CharField&gt;), ('model', &lt;django.db.models.fields.CharField&gt;)], options={'db_table': 'django_content_type', 'managed': False}&gt;, &lt;CreateModel  name='DjangoMigrations', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('app', &lt;django.db.models.fields.CharField&gt;), ('name', &lt;django.db.models.fields.CharField&gt;), ('applied', &lt;django.db.models.fields.DateTimeField&gt;)], options={'db_table': 'django_migrations', 'managed': False}&gt;, &lt;CreateModel  name='DjangoSession', fields=[('session_key', &lt;django.db.models.fields.CharField&gt;), ('session_data', &lt;django.db.models.fields.TextField&gt;), ('expire_date', &lt;django.db.models.fields.DateTimeField&gt;)], options={'db_table': 'django_session', 'managed': False}&gt;, &lt;CreateModel  name='ProfileAddress', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('firstname', &lt;django.db.models.fields.CharField&gt;), ('lastname', &lt;django.db.models.fields.CharField&gt;), ('address', &lt;django.db.models.fields.TextField&gt;), ('city', &lt;django.db.models.fields.CharField&gt;), ('cp', &lt;django.db.models.fields.CharField&gt;), ('country', &lt;django.db.models.fields.CharField&gt;), ('mobile', &lt;django.db.models.fields.CharField&gt;)], options={'db_table': 'profile_address', 'managed': False}&gt;, &lt;CreateModel  name='ProfileBasket', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('quantity', &lt;django.db.models.fields.PositiveSmallIntegerField&gt;), ('date', &lt;django.db.models.fields.DateTimeField&gt;)], options={'db_table': 'profile_basket', 'managed': False}&gt;, &lt;CreateModel  name='ProfileCustomer', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('mobile', &lt;django.db.models.fields.CharField&gt;), ('gender', &lt;django.db.models.fields.CharField&gt;), ('isnewsletter', &lt;django.db.models.fields.BooleanField&gt;)], options={'db_table': 'profile_customer', 'managed': False}&gt;, &lt;CreateModel  name='ProfileOrder', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('status', &lt;django.db.models.fields.CharField&gt;), ('delivery', &lt;django.db.models.fields.CharField&gt;), ('date', &lt;django.db.models.fields.DateTimeField&gt;), ('enddate', &lt;django.db.models.fields.DateTimeField&gt;), ('methodpayment', &lt;django.db.models.fields.CharField&gt;)], options={'db_table': 'profile_order', 'managed': False}&gt;, &lt;CreateModel  name='ProfileOrderproduct', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('quantity', &lt;django.db.models.fields.PositiveSmallIntegerField&gt;)], options={'db_table': 'profile_orderproduct', 'managed': False}&gt;, &lt;CreateModel  name='ShopCategory', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('name', &lt;django.db.models.fields.CharField&gt;)], options={'db_table': 'shop_category', 'managed': False}&gt;, &lt;CreateModel  name='ShopImages', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('image', &lt;django.db.models.fields.CharField&gt;), ('date', &lt;django.db.models.fields.DateTimeField&gt;), ('title', &lt;django.db.models.fields.CharField&gt;)], options={'db_table': 'shop_images', 'managed': False}&gt;, &lt;CreateModel  name='ShopNewsletter', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('email', &lt;django.db.models.fields.CharField&gt;), ('date', &lt;django.db.models.fields.DateTimeField&gt;)], options={'db_table': 'shop_newsletter', 'managed': False}&gt;, &lt;CreateModel  name='ShopProduct', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('name', &lt;django.db.models.fields.CharField&gt;), ('description', &lt;django.db.models.fields.TextField&gt;), ('price', &lt;django.db.models.fields.DecimalField&gt;), ('quantity', &lt;django.db.models.fields.IntegerField&gt;), ('date', &lt;django.db.models.fields.DateTimeField&gt;), ('image', &lt;django.db.models.fields.CharField&gt;)], options={'db_table': 'shop_product', 'managed': False}&gt;, &lt;CreateModel  name='ShopProductcomment', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('name', &lt;django.db.models.fields.CharField&gt;), ('email', &lt;django.db.models.fields.CharField&gt;), ('comment', &lt;django.db.models.fields.TextField&gt;), ('date', &lt;django.db.models.fields.DateTimeField&gt;), ('star', &lt;django.db.models.fields.PositiveSmallIntegerField&gt;)], options={'db_table': 'shop_productcomment', 'managed': False}&gt;, &lt;CreateModel  name='ShopSubcategory', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('name', &lt;django.db.models.fields.CharField&gt;)], options={'db_table': 'shop_subcategory', 'managed': False}&gt;]</em><a class="headerlink" href="#gestion.migrations.0001_initial.Migration.operations" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gestion.migrations">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-gestion.migrations" title="Lien permanent vers ce titre">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">eBrocanteApi</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Recherche rapide</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Theo Gaillard.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/rest/gestion.migrations.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
